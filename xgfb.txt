@@ -1,0 +1,43 @@
+import csv
+import matplotlib.pyplot as plt
+import pandas as pd
+
+x=[]
+y=[]
+
+district = {}
+districtcode = []
+with open('BostonPoliceDistricts.csv') as csv1file:
+    data = csv.reader(csv1file)
+    count = 0
+    for row in data:
+        count+=1
+        if count != 1:
+            district[row[0]]=row[1]
+            districtcode.append(row[0])
+
+with open('bostoncrime2021_7000_sample.csv') as csv2file:
+    plots = csv.reader(csv2file, delimiter = ',')
+    df=list(plots)
+
+    for dist in districtcode:
+        count =0
+        for row in df:
+            if row[4] == dist:
+                count+=1
+        x.append(district[dist])
+        y.append(count)
+
+    plt.bar(x, y, color = 'r', width = 0.72, label = 'Crimes')
+    plt.xlabel('Districts', labelpad=30)
+    plt.ylabel('Incidents')
+    plt.title('Number of Incidents by District')
+    plt.legend()
+    plt.show()
+
+
+
+
+
+
+
